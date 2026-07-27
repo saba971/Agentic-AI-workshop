@@ -14,9 +14,9 @@ from openai import OpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
-client = OpenAI()
+client = OpenAI(api_key="ollama", base_url="http://localhost:11434/v1")
 
-MODEL = "gpt-4o-mini"
+MODEL = "llama3.2"
 SYSTEM_PROMPT = "You are Atlas, a friendly travel-planning assistant. Be concise."
 
 

@@ -13,7 +13,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
-client = OpenAI()
+client = OpenAI(api_key="ollama", base_url="http://localhost:11434/v1")
 
 SYSTEM_PROMPT = (
     "You are 'Nova', a friendly study buddy for students. "
@@ -42,10 +42,10 @@ def chat() -> None:
         history.append({"role": "user", "content": user_msg})
 
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="llama3.1:latest",
             messages=history,
-            temperature=0.9,
-            max_tokens=10,
+            temperature=1.5,
+            max_tokens=200,
         )
 
         reply = response.choices[0].message.content

@@ -35,9 +35,12 @@ from .personas import PERSONAS, get_system_prompt, persona_meta
 from .sessions import store
 
 load_dotenv()
-client = OpenAI()
 import os
-CHAT_MODEL = os.getenv("CHAT_MODEL", "gpt-4o-mini")
+client = OpenAI(
+    api_key=os.getenv("OPENAI_API_KEY", "ollama"),
+    base_url="http://localhost:11434/v1"
+)
+CHAT_MODEL = os.getenv("CHAT_MODEL", "llama3.2")
 
 
 def _completion_kwargs(model: str, max_tokens: int, temperature: float | None = None) -> dict:
@@ -156,7 +159,7 @@ def chat(sid: str, req: ChatReq) -> StreamingResponse:
                 model=CHAT_MODEL,
                 messages=prompt_messages,
                 stream=True,
-                **_completion_kwargs(CHAT_MODEL, max_tokens=100, temperature=0.9),
+                **_completion_kwargs(CHAT_MODEL, max_tokens=500, temperature=0.9),
             )
         except Exception as exc:
             yield _sse({"event": "error", "error": str(exc)})

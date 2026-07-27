@@ -15,7 +15,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
-client = OpenAI()
+client = OpenAI(api_key="ollama", base_url="http://localhost:11434/v1")
 
 SYSTEM_PROMPT = (
     "You are 'Atlas', a travel-planning assistant for SkyTrip Airlines.\n"
@@ -121,7 +121,7 @@ def run_turn(history: list[dict], user_msg: str, max_iters: int = 4) -> str:
 
     for _ in range(max_iters):
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="llama3.2",
             messages=history,
             tools=TOOLS,
             temperature=0.3,
